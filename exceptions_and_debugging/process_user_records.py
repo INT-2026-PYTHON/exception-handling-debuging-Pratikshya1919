@@ -227,7 +227,33 @@ records = [
     {"name": "Dan", "age": "40", "score": "55.5"}
 
 ]
+records = []
 
+'''n = int(input("Enter number of records: "))
+
+for i in range(n):
+
+    print(f"\nRecord {i + 1}")
+
+    choice = input(
+        "Enter 'd' for dictionary record or 'x' for invalid record: "
+    ).lower()
+
+    if choice == "d":
+
+        name = input("Enter name: ")
+        age = input("Enter age: ")
+        score = input("Enter score: ")
+
+        records.append({
+            "name": name,
+            "age": age,
+            "score": score
+        })
+
+    else:
+
+        records.append(input("Enter invalid value: "))'''
 
 # Calling first function
 clean, errs = process_records(records)
