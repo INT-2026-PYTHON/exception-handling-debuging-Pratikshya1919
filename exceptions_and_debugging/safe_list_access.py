@@ -77,3 +77,31 @@ Output Example 3:
 =================================================
 
 """
+# Function to safely access a list element
+
+def safe_get(items, index):
+
+    try:
+        # Try to access the element
+        return ("ok", items[index])
+
+    except IndexError:
+        return ("error", "Index out of range")
+
+    except TypeError:
+        return ("error", "Index must be an int")
+
+    except Exception as e:
+        return ("error", f"Unexpected error: {str(e)}")
+
+
+'''# Driver Code
+print(safe_get([10, 20, 30, 40], 2))
+print(safe_get([10, 20, 30], 7))
+print(safe_get([10, 20, 30], "1"))'''
+
+# User input
+items = input("Enter list elements separated by spaces: ").split()
+index = int(input("Enter index: "))
+
+print(safe_get(items, index))

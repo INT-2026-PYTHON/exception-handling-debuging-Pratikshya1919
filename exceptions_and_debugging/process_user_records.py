@@ -137,3 +137,144 @@ Explanation:
 =================================================
 
 """
+# Function 1
+# Process all records and return:(clean_records, error_log)
+
+def process_records(records):
+
+    clean = []      # valid records
+    errs = []       # error log
+
+    # Loop through records with index(Iterating over the list with an index counter)
+    for i, rec in enumerate(records):
+
+        try:
+            # Access dictionary values
+            # May raise KeyError or TypeError
+            nm = rec["name"]
+            age = rec["age"]
+            sc = rec["score"]
+
+            # Convert strings to required types
+            # May raise ValueError
+            age = int(age)
+            sc = float(sc)
+
+        # Catch KeyError and TypeError together
+        except (KeyError, TypeError) as e:
+
+            errs.append(
+                (i, type(e).__name__, str(e))
+            )
+
+        # Catch ValueError separately
+        except ValueError as e:
+
+            errs.append(
+                (i, type(e).__name__, str(e))# type(e).__name__  :--- to get  the error name as string
+            )
+
+        # Runs only if no exception occurred
+        else:
+
+            clean.append(
+                {
+                    "name": nm,
+                    "age": age,
+                    "score": sc
+                }
+            )
+
+    return clean, errs
+
+
+# Function 2
+# Strict mode:
+# If any error occurred, raise RuntimeError
+
+def process_strict(records):
+
+    try:
+        clean, errs = process_records(records)
+
+        if len(errs) > 0:
+
+            raise RuntimeError(
+                f"{len(errs)} record(s) failed to process"
+            )
+
+        return clean
+
+    except RuntimeError:
+        # Re-raise the same error
+        raise
+
+
+# -------------------------------------------------
+# DRIVER CODE
+# -------------------------------------------------
+
+records = [
+
+    {"name": "Alice", "age": "25", "score": "88.5"},
+
+    {"name": "Bob", "age": "abc", "score": "70"},
+
+    {"name": "Carol", "age": "30"},     # Missing score
+
+    "not a dict",                       # Wrong type
+
+    {"name": "Dan", "age": "40", "score": "55.5"}
+
+]
+records = []
+
+'''n = int(input("Enter number of records: "))
+
+for i in range(n):
+
+    print(f"\nRecord {i + 1}")
+
+    choice = input(
+        "Enter 'd' for dictionary record or 'x' for invalid record: "
+    ).lower()
+
+    if choice == "d":
+
+        name = input("Enter name: ")
+        age = input("Enter age: ")
+        score = input("Enter score: ")
+
+        records.append({
+            "name": name,
+            "age": age,
+            "score": score
+        })
+
+    else:
+
+        records.append(input("Enter invalid value: "))'''
+
+# Calling first function
+clean, errs = process_records(records)
+
+print("Clean Records:")
+print(clean)#printing the clean records from the 1st function
+
+print() #prints blank line for easy o/p- analysis
+
+print("Error Log:")
+print(errs)#printing the error from the 1st function
+
+print()#prints blank line for easy o/p- analysis
+
+
+# Call strict version
+try:
+
+    process_strict(records)
+
+except RuntimeError as e:
+
+    print("Strict mode raised:")
+    print(e)
