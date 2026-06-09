@@ -124,3 +124,36 @@ Explanation:
 =================================================
 
 """
+
+def read_numbers(path):
+    count=0
+    num=[]
+    total=0
+    try:
+        with open(path,"r") as f:  
+          for line in f:
+                  n = float(line.strip())
+                  num.append(n)
+                  count+= 1  
+    except FileNotFoundError:
+           print("error",f"{path} not found",count)
+    except PermissionError:
+           print("error","Permission Denied\nfile cannot be read",count)
+    except ValueError:
+           print("error","A line is not a number",count)
+    except Exception as e:
+           return ("error", str(e), count)
+    else:
+              total=sum(num)
+              return ("ok", total, count)
+              '''this block ONLY runs if no exception
+              was raised. Use it for the success
+              path (e.g. compute the final sum).'''
+    finally:
+              print("Done reading")
+              '''this block ALWAYS runs. Use it to
+              close the file if it was opened, or
+              to print "Done reading".'''
+
+t = read_numbers("number.txt")
+print(t)
